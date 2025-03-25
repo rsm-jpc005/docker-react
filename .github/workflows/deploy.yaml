@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v3
       - run: echo "@Iamzanis0308" | docker login -u "josh9" --password-stdin
       - run: docker build -t josh9/react-test -f ./client/Dockerfile.dev ./client
-      - run: docker run -e CI=true rallycoding/react-test npm test
+      - run: docker run -e CI=true josh9/react-test npm test
 
       - run: docker build -t josh9/multi-client ./client
       - run: docker build -t josh9/multi-nginx ./nginx
