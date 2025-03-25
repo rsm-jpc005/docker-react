@@ -10,5 +10,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: echo "@Iamzanis0308" | docker login -u "josh9" --password-stdin
-      - run: docker build -t cygnetops/react-test -f Dockerfile.dev .
-      - run: docker run -e CI=true cygnetops/react-test npm test
+      - run: docker build -t rallycoding/react-test -f ./client/Dockerfile.dev ./client
+      - run: docker run -e CI=true rallycoding/react-test npm test
+
+      - run: docker build -t rallycoding/multi-client ./client
+      - run: docker build -t rallycoding/multi-nginx ./nginx
+      - run: docker build -t rallycoding/multi-server ./server
+      - run: docker build -t rallycoding/multi-worker ./worker
+
+      - run: docker push rallycoding/multi-client
+      - run: docker push rallycoding/multi-nginx
+      - run: docker push rallycoding/multi-server
+      - run: docker push rallycoding/multi-worker
+
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
